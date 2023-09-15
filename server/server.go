@@ -56,11 +56,7 @@ func LoggingMiddlewareFunc(logger *zerolog.Logger) mux.MiddlewareFunc {
 			next.ServeHTTP(rr, r)
 
 			// Log information about the incoming request and response status.
-			logger.Info().
-				Str("method", r.Method).
-				Str("path", r.URL.Path).
-				Int("status", rr.Status).
-				Msg("Request received")
+			logger.Info().Str("method", r.Method).Str("path", r.URL.Path).Int("status", rr.Status).Msg("Request received")
 		})
 	}
 }
