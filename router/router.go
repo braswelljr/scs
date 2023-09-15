@@ -14,9 +14,9 @@ func NewRouter(router *mux.Router) {
 
 	// Add routes.
 	api.HandleFunc("/health", func(w http.ResponseWriter, _ *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
 
 		// return a json response
 		if err := json.NewEncoder(w).Encode(map[string]string{"message": "api health check"}); err != nil {
