@@ -22,3 +22,22 @@ go.work
 /.encore
 encore.gen.go
 encore.gen.cue
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# testing files
+bin/test
+tmp
+
+# environmental
+.env.*
+
+# firebase keys
+firebase/keys
