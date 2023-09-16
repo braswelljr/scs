@@ -30,7 +30,7 @@ func (s *Server) Run(ctx context.Context) (err error) {
 	group.Go(func() error {
 		defer cancel()
 		err := s.Http.Serve(s.Listener)
-		if err == context.Canceled || errors.Is(err, http.ErrServerClosed) {
+		if errors.Is(err, context.Canceled) || errors.Is(err, http.ErrServerClosed) {
 			err = nil
 		}
 		return err

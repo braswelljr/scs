@@ -9,13 +9,24 @@ import (
 
 // NewRouter creates a new router.
 func NewRouter(router *mux.Router) {
+	// set general headers
+	router.Use(func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			// set headers
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Content-Type", "application/json")
+			w.Header().Set("X-Content-Type-Options", "nosniff")
+
+			// call the next handler in the chain
+			next.ServeHTTP(w, r)
+		})
+	})
+
 	// prefix all routes with /api
 	api := router.PathPrefix("/api").Subrouter()
 
 	// Add routes.
 	api.HandleFunc("/health", func(w http.ResponseWriter, _ *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 
 		// return a json response

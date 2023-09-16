@@ -20,7 +20,7 @@ func NewServer(logger *zerolog.Logger, listener net.Listener) *server.Server {
 	r.Use(mux.CORSMethodMiddleware(r))
 
 	// Add logging middleware.
-	r.Use(mux.MiddlewareFunc(func(next http.Handler) http.Handler {
+	r.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// Create a response recorder to capture the status code.
 			rr := NewResponseRecorder(w)
@@ -31,7 +31,7 @@ func NewServer(logger *zerolog.Logger, listener net.Listener) *server.Server {
 			// Log information about the incoming request and response status.
 			logger.Info().Str("method", r.Method).Str("path", r.URL.Path).Int("status", rr.Status).Msg("Request received")
 		})
-	}))
+	})
 
 	// Create server.
 	s := &server.Server{
